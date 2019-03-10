@@ -11,6 +11,8 @@ namespace FNA.Extended.Input.InputListeners
     public class GamePadListener : InputListener
     {
         private static readonly bool[] _gamePadConnections = new bool[4];
+        private static Array _ButtonsEnumValue = Enum.GetValues(typeof(Buttons));
+        private static Array _PlayerIndexEnumValues = Enum.GetValues(typeof(PlayerIndex));
 
         // These buttons are not to be evaluated normally, but with the debounce filter
         // in their respective methods.
@@ -297,7 +299,7 @@ namespace FNA.Extended.Input.InputListeners
             // ...At least, that's the theory. It doesn't seem to be implemented. Disabled for now.
             //if (_lastPacketNumber == _currentState.PacketNumber)
             //    return;
-            foreach (Buttons button in Enum.GetValues(typeof(Buttons)))
+            foreach (Buttons button in _ButtonsEnumValue)
             {
                 if (_excludedButtons.Contains(button))
                     break;
@@ -448,7 +450,7 @@ namespace FNA.Extended.Input.InputListeners
             if (!CheckControllerConnections)
                 return;
 
-            foreach (PlayerIndex index in Enum.GetValues(typeof(PlayerIndex)))
+            foreach (PlayerIndex index in _PlayerIndexEnumValues)
             {
                 if (GamePad.GetState(index).IsConnected ^ _gamePadConnections[(int) index])
                     // We need more XORs in this world

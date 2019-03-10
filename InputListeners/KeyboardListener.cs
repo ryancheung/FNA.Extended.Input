@@ -13,6 +13,8 @@ namespace FNA.Extended.Input.InputListeners
         private Keys _previousKey;
         private KeyboardState _previousState;
 
+        private static Array _KeysEnumValues = Enum.GetValues(typeof(Keys));
+
         public KeyboardListener()
             : this(new KeyboardListenerSettings())
         {
@@ -50,7 +52,7 @@ namespace FNA.Extended.Input.InputListeners
         {
             if (!currentState.IsKeyDown(Keys.LeftAlt) && !currentState.IsKeyDown(Keys.RightAlt))
             {
-                var pressedKeys = Enum.GetValues(typeof(Keys))
+                var pressedKeys = _KeysEnumValues
                     .Cast<Keys>()
                     .Where(key => currentState.IsKeyDown(key) && _previousState.IsKeyUp(key));
 
@@ -72,7 +74,7 @@ namespace FNA.Extended.Input.InputListeners
 
         private void RaiseReleasedEvents(KeyboardState currentState)
         {
-            var releasedKeys = Enum.GetValues(typeof(Keys))
+            var releasedKeys = _KeysEnumValues
                 .Cast<Keys>()
                 .Where(key => currentState.IsKeyUp(key) && _previousState.IsKeyDown(key));
 
